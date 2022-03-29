@@ -1,12 +1,18 @@
 import { Post } from "@prisma/client";
 import { Context } from "../../../context";
 
-const posts = (_parent: any, _args: any, context: Context): Promise<Post[]> => {
-  return context.prisma.post.findMany({
+const posts = async (
+  _parent: unknown,
+  _args: unknown,
+  context: Context
+): Promise<Post[]> => {
+  const posts = await context.prisma.post.findMany({
     include: {
       author: true,
     },
   });
+
+  return posts;
 };
 
 export default posts;

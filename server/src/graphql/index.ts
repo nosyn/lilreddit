@@ -1,6 +1,6 @@
 // Apollo
 import { ApolloServer } from "apollo-server-express";
-import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
+import { ApolloServerPluginDrainHttpServer, Context } from "apollo-server-core";
 import { Server } from "http";
 
 // Context

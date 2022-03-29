@@ -6,9 +6,15 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "dev": "nodemon --exec ts-node src/index.ts"
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "prisma:generate": "yarn prisma generate",
+    "prisma:studio": "yarn prisma studio",
+    "codegen:generate": "graphql-codegen --config codegen.yml"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "2.6.2",
+    "@graphql-codegen/typescript": "2.4.8",
+    "@graphql-codegen/typescript-resolvers": "2.6.1",
     "@types/connect-redis": "^0.0.18",
     "@types/express": "^4.17.13",
     "@types/express-session": "^1.17.4",
@@ -24,7 +30,7 @@
     "@types/nodemailer": "^6.4.4",
     "@types/uuid": "^8.3.4",
     "apollo-server-express": "^3.6.2",
-    "argon2": "^0.28.4",
+    "argon2": "^0.28.5",
     "connect-redis": "^6.1.1",
     "cors": "^2.8.5",
     "dataloader": "^2.0.0",
@@ -32,12 +38,10 @@
     "express-session": "^1.17.2",
     "graphql": "^15.3.0",
     "ioredis": "^4.28.5",
-    "pg": "^8.7.1",
-    "reflect-metadata": "^0.1.13",
     "uuid": "^8.3.2"
   },
   "prisma": {
-    "seed": "ts-node prisma/seed.ts",
+    "seed": "ts-node src/prisma/seed.ts",
     "schema": "src/prisma/schema.prisma"
   }
 }

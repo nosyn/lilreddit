@@ -3,7 +3,6 @@ import prisma from "./";
 
 const userData: Prisma.UserCreateInput[] = [
   {
-    name: "Alice",
     email: "alice@prisma.io",
     posts: {
       create: [
@@ -16,7 +15,6 @@ const userData: Prisma.UserCreateInput[] = [
     },
   },
   {
-    name: "Nilu",
     email: "nilu@prisma.io",
     posts: {
       create: [
@@ -30,7 +28,6 @@ const userData: Prisma.UserCreateInput[] = [
     },
   },
   {
-    name: "Mahmoud",
     email: "mahmoud@prisma.io",
     posts: {
       create: [

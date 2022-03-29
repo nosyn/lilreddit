@@ -1,0 +1,30 @@
+# Query
+type Query {
+  me: User
+}
+
+# Mutation
+type Mutation {
+  signIn(input: SignInInput!): User!
+  signUp(input: SignUpInput!): User!
+  signOut: Boolean!
+}
+
+# Object
+type User {
+  id: Int!
+  email: String!
+  username: String!
+}
+
+# Input
+input SignInInput {
+  username: String!
+  password: String!
+}
+
+input SignUpInput {
+  username: String!
+  email: String!
+  password: String!
+}

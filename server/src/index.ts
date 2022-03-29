@@ -1,4 +1,3 @@
-import "reflect-metadata";
 // Constants
 import { __prod__, GRAPHQL_PATH } from "./constants";
 
@@ -9,55 +8,25 @@ import cors from "cors";
 // import IORedis from "ioredis";
 
 // redis@v4
-// import session from "express-session";
-// import connectRedis from "connect-redis";
-import { PORT } from "./config";
+import { PORT, CORS_CONFIG } from "./configs";
 import initializeApolloServer from "./graphql";
 
-// Apply all configurations including middlewares to the respective objects
+// Services
+import { authenticationMiddleware } from "./services/authentication";
+
 const initializeHttpServer = async () => {
   // Required logic for integrating with Express
   const app = express();
   const httpServer = createServer(app);
 
-  app.use(
-    cors({
-      credentials: true,
-      origin: ["https://studio.apollographql.com", "http://localhost:3000"],
-    })
-  );
+  // Cors
+  app.use(cors(CORS_CONFIG));
 
-  // const redisClient = new IORedis({
-  //   host: "redis",
-  //   port: 6379,
-  //   password: "redispassword",
-  // });
+  // Authentication
+  app.use(authenticationMiddleware());
+  app.set("trust proxy", !__prod__);
 
-  // const RedisStore = connectRedis(session);
-
-  // app.use(
-  //   session({
-  //     name: COOKIES_NAME,
-  //     store: new RedisStore({
-  //       client: redisClient,
-  //       // disableTouch: true,
-  //       disableTTL: true,
-  //     }),
-  //     saveUninitialized: false,
-  //     // TODO: Using environment variable
-  //     secret: "keyboard cat",
-  //     resave: false,
-  //     cookie: {
-  //       maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
-  //       httpOnly: true, // cookie won't be accessible by Javascript on the front end
-  //       secure: __prod__, // cookie only works in https or manually disable when using apollo studio
-  //       // secure: true,
-  //       sameSite: "lax", // csrf
-  //     },
-  //   })
-  // );
-
-  // Same ApolloServer initialization as before, plus the drain plugin.
+  // Apollo Server
   const apolloServer = initializeApolloServer(httpServer);
 
   await apolloServer.start();
