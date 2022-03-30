@@ -8,7 +8,6 @@ const me = (
   { req, prisma }: Context
 ): Promise<User> => {
   const userId = req.session.userId;
-  console.log("userId: ", userId);
   if (!userId) throw new AuthenticationError("Not authenticated");
 
   return prisma.user

@@ -11,11 +11,12 @@ const signUp = async (
   // Find if the email exists
   const user = await prisma.user.findFirst({
     where: {
-      email,
+      OR: [{ username }, { password }],
     },
   });
+
   if (user) {
-    throw new UserInputError("Email already exists");
+    throw new UserInputError("Email or username already exists");
   }
 
   const hashedPassword = await argon2.hash(password);

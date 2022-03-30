@@ -1,5 +1,5 @@
-import { Post } from "@prisma/client";
 import { Context } from "../../../context";
+import { Post } from "../../../generated/graphql";
 
 const posts = async (
   _parent: unknown,

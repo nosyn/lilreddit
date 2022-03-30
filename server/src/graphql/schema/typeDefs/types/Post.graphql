@@ -1,15 +1,38 @@
 type Post {
   id: Int!
-  createdAt: String!
-  updatedAt: String!
+  createdAt: Date!
+  updatedAt: Date!
   title: String!
   content: String
-  published: Boolean!
-  viewCount: Int!
-  author: User
-  authorId: Int
+  author: User!
+  authorId: Int!
 }
 
 type Query {
   posts: [Post]
+  post: Post!
 }
+
+type Mutation {
+  createPost(input: CreatePostInput!): Post!
+  deletePost(input: DeletePostInput!): Boolean!
+  updatePost(input: UpdatePostInput!): Post!
+}
+
+# Input
+input CreatePostInput {
+  title: String!
+  content: String!
+}
+
+input DeletePostInput {
+  id: Int!
+}
+
+input UpdatePostInput {
+  id: Int!
+  title: String!
+  content: String!
+}
+
+scalar Date
