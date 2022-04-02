@@ -1,7 +1,19 @@
 import { UserInputError } from "apollo-server-express";
 import { Context } from "../../../context";
 import { MutationSignInArgs, User } from "../../../generated/graphql";
-import argon2 from "argon2";
+import crypto from "crypto";
+
+const validPassword = (
+  hashedPassword: string,
+  password: string,
+  salt: string
+) => {
+  const hash = crypto
+    .pbkdf2Sync(hashedPassword, salt, 1000, 64, `sha512`)
+    .toString(`hex`);
+
+  return hashedPassword === hash;
+};
 
 const signIn = async (
   _parent: unknown,
@@ -18,8 +30,12 @@ const signIn = async (
     })
     .then(async (user) => {
       // Check for the password
-      const valid = await argon2.verify(user.password, password);
-      if (!valid)
+      const hash = crypto
+        .pbkdf2Sync(password, user.salt, 1000, 64, `sha512`)
+        .toString(`hex`);
+      const isValid = hash === user.password;
+
+      if (!isValid)
         throw new UserInputError("Username or password are incorrect");
 
       return user;

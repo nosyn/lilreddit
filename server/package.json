@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "dev": "nodemon --exec ts-node src/index.ts",
+    "dev": "yarn prisma migrate dev && nodemon --exec ts-node src/index.ts",
     "prisma:generate": "yarn prisma generate",
     "prisma:studio": "yarn prisma studio",
     "codegen:watch": "graphql-codegen --config codegen.yml --watch",
@@ -31,7 +31,6 @@
     "@types/nodemailer": "^6.4.4",
     "@types/uuid": "^8.3.4",
     "apollo-server-express": "^3.6.2",
-    "argon2": "^0.28.5",
     "connect-redis": "^6.1.1",
     "cors": "^2.8.5",
     "dataloader": "^2.0.0",
@@ -42,7 +41,6 @@
     "uuid": "^8.3.2"
   },
   "prisma": {
-    "seed": "ts-node src/prisma/seed.ts",
-    "schema": "src/prisma/schema.prisma"
+    "seed": "ts-node src/prisma/seed.ts"
   }
 }

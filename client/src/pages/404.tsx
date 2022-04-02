@@ -1,13 +1,13 @@
 import React from "react";
 import {
   createStyles,
-  Image,
   Container,
   Title,
   Text,
   Button,
   SimpleGrid,
 } from "@mantine/core";
+import Image from "next/image";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -58,6 +58,8 @@ function NotFoundImage() {
       >
         <Image
           src={"/vercel.svg"}
+          width={5}
+          height={5}
           alt="404 image"
           className={classes.mobileImage}
         />
@@ -77,7 +79,13 @@ function NotFoundImage() {
             Get back to home page
           </Button>
         </div>
-        <Image src={"/vercel.svg"} className={classes.desktopImage} />
+        <Image
+          src={"/vercel.svg"}
+          alt="second img"
+          width={640}
+          height={480}
+          className={classes.desktopImage}
+        />
       </SimpleGrid>
     </Container>
   );

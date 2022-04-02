@@ -9,8 +9,16 @@ import {
   ColorSchemeProvider,
 } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
-import theme from "../theme";
+import { ApolloProvider } from "@apollo/client";
+
+// Layout
 import AppLayout from "../components/layouts/AppLayout";
+
+// Override theme
+import theme from "../theme";
+
+// Apollo client
+import { client } from "../graphql/client";
 
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;
@@ -38,22 +46,24 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
         <link rel="shortcut icon" href="/favicon.svg" />
       </Head>
 
-      <ColorSchemeProvider
-        colorScheme={colorScheme}
-        toggleColorScheme={toggleColorScheme}
-      >
-        <MantineProvider
-          theme={{ ...theme, colorScheme }}
-          withGlobalStyles
-          withNormalizeCSS
+      <ApolloProvider client={client}>
+        <ColorSchemeProvider
+          colorScheme={colorScheme}
+          toggleColorScheme={toggleColorScheme}
         >
-          <NotificationsProvider>
-            <AppLayout>
-              <Component {...pageProps} />
-            </AppLayout>
-          </NotificationsProvider>
-        </MantineProvider>
-      </ColorSchemeProvider>
+          <MantineProvider
+            theme={{ ...theme, colorScheme }}
+            withGlobalStyles
+            withNormalizeCSS
+          >
+            <NotificationsProvider>
+              <AppLayout>
+                <Component {...pageProps} />
+              </AppLayout>
+            </NotificationsProvider>
+          </MantineProvider>
+        </ColorSchemeProvider>
+      </ApolloProvider>
     </>
   );
 }

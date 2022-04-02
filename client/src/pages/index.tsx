@@ -1,8 +1,11 @@
 import { Title, Text, Anchor, Container } from "@mantine/core";
-import { ColorSchemeToggle } from "../components/ColorSchemeToggle";
-import DemoPrism from "../components/DemoPrism";
+import { usePingQuery } from "../graphql/generated/graphql";
 
 const HomePage = () => {
+  const { data, loading, error } = usePingQuery();
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error</div>;
+
   return (
     <Container
       style={{
@@ -10,7 +13,7 @@ const HomePage = () => {
         border: "1px solid blue",
       }}
     >
-      <div>hello</div>
+      <div>{data!.ping}</div>
     </Container>
   );
 };

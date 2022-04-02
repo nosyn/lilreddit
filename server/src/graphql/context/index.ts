@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { Session, SessionData } from "express-session";
 import { ContextFunction } from "apollo-server-core";
 import { PrismaClient } from "@prisma/client";
-import prisma from "../../prisma";
+import prisma from "../../../prisma";
 
 export interface Context {
   prisma: PrismaClient;

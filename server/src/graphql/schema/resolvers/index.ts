@@ -18,6 +18,7 @@ import updatePost from "./mutations/updatePost";
 const resolvers: Resolvers = {
   Date: dateScalar,
   Query: {
+    ping: () => `pong: ${Date.now()}`,
     me,
     posts,
   },
