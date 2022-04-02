@@ -11,10 +11,21 @@ import {
   Divider,
   Checkbox,
   Anchor,
+  createStyles,
 } from "@mantine/core";
 import { BrandGoogle, BrandTwitter } from "tabler-icons-react";
 
+const useStyles = createStyles((theme) => ({
+  paper: {
+    backgroundColor:
+      theme.colorScheme === "light"
+        ? theme.colors.gray[0]
+        : theme.colors.gray[9],
+  },
+}));
+
 const SignInForm = (props: PaperProps<"div">) => {
+  const { classes } = useStyles();
   const [type, toggle] = useToggle("login", ["login", "register"]);
   const form = useForm({
     initialValues: {
@@ -32,7 +43,7 @@ const SignInForm = (props: PaperProps<"div">) => {
   });
 
   return (
-    <Paper radius="md" p="xl" withBorder {...props}>
+    <Paper radius="md" p="xl" className={classes.paper} withBorder {...props}>
       <Text size="lg" weight={500}>
         Welcome to Lil Reddit, {type} with
       </Text>

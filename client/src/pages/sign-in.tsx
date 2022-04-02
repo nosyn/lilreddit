@@ -1,12 +1,15 @@
-import { Container, createStyles } from "@mantine/core";
+import { Box, createStyles } from "@mantine/core";
 import React from "react";
 import AuthenticationForm from "../components/SignInForm";
 
 interface SignInProps {}
 
-const useStyles = createStyles(() => ({
+const useStyles = createStyles((theme) => ({
   container: {
-    alignSelf: "center",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
   },
 }));
 
@@ -14,9 +17,9 @@ const SignIn = ({}: SignInProps) => {
   const { classes } = useStyles();
 
   return (
-    <Container className={classes.container}>
+    <Box className={classes.container}>
       <AuthenticationForm />
-    </Container>
+    </Box>
   );
 };
 

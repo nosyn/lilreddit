@@ -8,17 +8,15 @@ interface AppLayoutProps {
 }
 
 const useStyles = createStyles(() => ({
-  root: {},
   container: {
     height: `calc(100vh - ${NAVBAR_HEIGHT}px - ${NAVBAR_MARGIN_BOTTOM}px)`,
-    border: "1px solid red",
   },
 }));
 
 const AppLayout = ({ children }: AppLayoutProps) => {
   const { classes } = useStyles();
   return (
-    <Box className={classes.root}>
+    <Box>
       <NavBar />
       <Container className={classes.container} size="lg">
         {children}
