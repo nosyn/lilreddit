@@ -1,3 +1,4 @@
 import UserMenu from "./UserMenu";
+import AuthUserMenu from "./AuthUserMenu";
 
-export { UserMenu };
+export { UserMenu, AuthUserMenu };

@@ -2,7 +2,13 @@ import { Box, createStyles } from "@mantine/core";
 import React from "react";
 import SignInForm from "../components/SignInForm";
 import { SignInInputType } from "../types";
-import { useSignInMutation } from "../graphql/generated/graphql";
+import {
+  MeDocument,
+  MeQuery,
+  useSignInMutation,
+} from "../graphql/generated/graphql";
+import { useRouter } from "next/router";
+import { ROUTES } from "../constants";
 
 const useStyles = createStyles(() => ({
   container: {
@@ -15,13 +21,23 @@ const useStyles = createStyles(() => ({
 
 const SignIn = () => {
   const { classes } = useStyles();
-
+  const router = useRouter();
   const [signIn, { loading }] = useSignInMutation({
-    onCompleted: (data) => {
-      console.log("data: ", data);
+    onCompleted: () => {
+      router.push(ROUTES.ROOT);
     },
     onError: (error) => {
       console.log("error:", error.message);
+    },
+    update: (cache, { data }) => {
+      cache.writeQuery<MeQuery>({
+        query: MeDocument,
+        data: {
+          __typename: "Query",
+          me: data?.signIn,
+        },
+      });
+      // cache.evict({ fieldName: "posts" });
     },
   });
 

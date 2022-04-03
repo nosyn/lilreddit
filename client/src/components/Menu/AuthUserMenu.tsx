@@ -1,3 +1,4 @@
+import { useApolloClient } from "@apollo/client";
 import {
   Menu,
   Divider,
@@ -5,16 +6,20 @@ import {
   createStyles,
   useMantineColorScheme,
   Switch,
+  Box,
+  Avatar,
+  Button,
 } from "@mantine/core";
 import {
   Settings,
   Search,
   Photo,
   MessageCircle,
-  Trash,
-  ArrowsLeftRight,
+  Logout,
+  ChevronDown,
 } from "tabler-icons-react";
 import { MoonStars } from "tabler-icons-react";
+import { User, useSignOutMutation } from "../../graphql/generated/graphql";
 
 const useStyles = createStyles((theme) => ({
   itemHovered: {
@@ -24,19 +29,53 @@ const useStyles = createStyles((theme) => ({
   item: {
     padding: 8,
   },
+  boxContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 2,
+  },
 }));
 
-const UserMenu = () => {
+type AuthUserMenuProps = {
+  user: User;
+};
+
+const AuthUserMenu = ({ user }: AuthUserMenuProps) => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  const isDarkTheme = colorScheme === "dark";
   const { classes } = useStyles();
+  const isDarkTheme = colorScheme === "dark";
+  const apolloClient = useApolloClient();
+  const [signOut] = useSignOutMutation({
+    onCompleted: (data) => {
+      if (data.signOut) {
+        apolloClient.resetStore();
+      }
+    },
+    onError: (error) => {
+      console.log("error: ", error);
+    },
+  });
+
+  const controlButton = () => {
+    return (
+      <Button
+        variant="subtle"
+        leftIcon={<Avatar size={"md"} radius={10} />}
+        rightIcon={<ChevronDown />}
+        p={0}
+      >
+        <Text>{user.username}</Text>
+      </Button>
+    );
+  };
 
   return (
-    <Menu classNames={classes}>
+    <Menu classNames={classes} control={controlButton()}>
       <Menu.Label>View Options</Menu.Label>
       <Menu.Item
         icon={<MoonStars size={18} />}
-        rightSection={<Switch checked={isDarkTheme} />}
+        rightSection={<Switch checked={isDarkTheme} onChange={() => {}} />}
         onClick={() => toggleColorScheme()}
       >
         <Text size="sm">Dark Theme</Text>
@@ -56,15 +95,17 @@ const UserMenu = () => {
         Search
       </Menu.Item>
       <Divider />
-      <Menu.Label>Danger zone</Menu.Label>
-      <Menu.Item icon={<ArrowsLeftRight size={14} />}>
-        Transfer my data
-      </Menu.Item>
-      <Menu.Item color="red" icon={<Trash size={14} />}>
-        Delete my account
+
+      <Menu.Item
+        icon={<Logout size={14} />}
+        onClick={() => {
+          signOut();
+        }}
+      >
+        Sign Out
       </Menu.Item>
     </Menu>
   );
 };
 
-export default UserMenu;
+export default AuthUserMenu;

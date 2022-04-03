@@ -6,9 +6,9 @@ const me = (
   _parent: unknown,
   _args: unknown,
   { req, prisma }: Context
-): Promise<User> => {
+): Promise<User> | null => {
   const userId = req.session.userId;
-  if (!userId) throw new AuthenticationError("Not authenticated");
+  if (!userId) return null;
 
   return prisma.user
     .findUnique({

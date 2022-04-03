@@ -4,7 +4,6 @@ import {
   Header,
   Autocomplete,
   Group,
-  Burger,
   Box,
   Button,
   ActionIcon,
@@ -13,7 +12,8 @@ import { Search } from "tabler-icons-react";
 import { BrandReddit } from "tabler-icons-react";
 import { NAVBAR_HEIGHT, NAVBAR_MARGIN_BOTTOM } from "../configs/uiConfigs";
 import Link from "next/link";
-import { UserMenu } from "./Menu";
+import { AuthUserMenu, UserMenu } from "./Menu";
+import { useMeQuery } from "../graphql/generated/graphql";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -66,6 +66,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const NavBar = () => {
+  const { data } = useMeQuery();
   // const [opened, toggleOpened] = useBooleanToggle(false);
   const { classes } = useStyles();
 
@@ -100,21 +101,25 @@ const NavBar = () => {
           ]}
         />
 
-        <Group>
-          <Group ml={50} spacing={5} className={classes.links}>
-            <Link href="/sign-in" passHref>
-              <Button variant="default" radius="xl">
-                Sign In
-              </Button>
-            </Link>
-            <Link href="/sign-in" passHref>
-              <Button variant="light" radius="xl">
-                Sign Up
-              </Button>
-            </Link>
-            <UserMenu />
+        {data?.me ? (
+          <AuthUserMenu user={data.me} />
+        ) : (
+          <Group>
+            <Group ml={50} spacing={5} className={classes.links}>
+              <Link href="/sign-in" passHref>
+                <Button variant="default" radius="xl">
+                  Sign In
+                </Button>
+              </Link>
+              <Link href="/sign-in" passHref>
+                <Button variant="light" radius="xl">
+                  Sign Up
+                </Button>
+              </Link>
+              <UserMenu />
+            </Group>
           </Group>
-        </Group>
+        )}
       </Box>
     </Header>
   );
