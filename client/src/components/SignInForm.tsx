@@ -16,7 +16,7 @@ import { SignInInputType } from "../types";
 import { useForm } from "@mantine/hooks";
 
 interface SignInFormProps {
-  handleSubmit: (values: SignInInputType) => void;
+  handleSubmit: () => void;
   loading: boolean | undefined;
 }
 

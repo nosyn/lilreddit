@@ -1,6 +1,5 @@
-import { Title, Text, Anchor, Container } from "@mantine/core";
-import { useMeLazyQuery, usePingQuery } from "../graphql/generated/graphql";
-import useAuth from "../hooks/useIsAuth";
+import { Container } from "@mantine/core";
+import { usePingQuery } from "../graphql/generated/graphql";
 
 const HomePage = () => {
   const { data, loading, error } = usePingQuery();

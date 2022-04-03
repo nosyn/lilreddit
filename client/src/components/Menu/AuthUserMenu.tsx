@@ -6,7 +6,6 @@ import {
   createStyles,
   useMantineColorScheme,
   Switch,
-  Box,
   Avatar,
   Button,
 } from "@mantine/core";
