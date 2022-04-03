@@ -15,8 +15,6 @@ const signUp = async (
     },
   });
 
-  console.log("user: ", user);
-
   if (user) {
     throw new UserInputError("Email or username already exists");
   }

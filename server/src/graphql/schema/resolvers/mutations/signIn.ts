@@ -23,13 +23,12 @@ const signIn = async (
         .toString(`hex`);
       const isValid = hash === user.password;
 
-      if (!isValid)
-        throw new UserInputError("Username or password are incorrect");
+      if (!isValid) throw new UserInputError("Incorrect username or password");
 
       return user;
     })
     .catch(() => {
-      throw new UserInputError("Username or password are incorrect");
+      throw new UserInputError("Incorrect username or password");
     });
 
   // Store user id session

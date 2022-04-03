@@ -13,6 +13,7 @@ services:
       - redis-volume:/bitnami/redis/data
     environment:
       REDIS_PASSWORD: &redis_password redispassword
+
   postgres:
     image: postgres:10.5
     restart: always
@@ -26,8 +27,6 @@ services:
         max-file: "3"
     volumes:
       - postgres-volume:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
   # copy the sql script to create tables
   # - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
 
@@ -53,8 +52,6 @@ services:
       - ./client:/app
     depends_on:
       - server
-    ports:
-      - 3000:3000
     environment:
       NODE_ENV: *global_env
 
