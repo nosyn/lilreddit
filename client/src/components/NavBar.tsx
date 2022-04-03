@@ -111,7 +111,7 @@ const NavBar = () => {
                   Sign In
                 </Button>
               </Link>
-              <Link href="/sign-in" passHref>
+              <Link href="/sign-up" passHref>
                 <Button variant="light" radius="xl">
                   Sign Up
                 </Button>

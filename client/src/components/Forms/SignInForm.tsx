@@ -12,11 +12,12 @@ import {
   Group,
   Button,
 } from "@mantine/core";
-import { SignInInputType } from "../types";
+import { SignInInputType } from "../../types";
 import { useForm } from "@mantine/hooks";
 
 interface SignInFormProps {
-  handleSubmit: () => void;
+  // eslint-disable-next-line no-unused-vars
+  handleSubmit: (input: SignInInputType) => void;
   loading: boolean | undefined;
 }
 

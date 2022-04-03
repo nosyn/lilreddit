@@ -1,6 +1,6 @@
 import { Box, createStyles } from "@mantine/core";
 import React from "react";
-import { SignInForm } from "../components/Forms";
+import { SignUpForm } from "../components/Forms";
 import { SignInInputType } from "../types";
 import {
   MeDocument,
@@ -19,7 +19,7 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-const SignIn = () => {
+const SignUp = () => {
   const { classes } = useStyles();
   const router = useRouter();
   const [signIn, { loading }] = useSignInMutation({
@@ -55,9 +55,9 @@ const SignIn = () => {
 
   return (
     <Box className={classes.container}>
-      <SignInForm handleSubmit={handleSubmit} loading={loading} />
+      <SignUpForm handleSubmit={handleSubmit} loading={loading} />
     </Box>
   );
 };
 
-export default SignIn;
+export default SignUp;
