@@ -3,18 +3,6 @@ import { Context } from "../../../context";
 import { MutationSignInArgs, User } from "../../../generated/graphql";
 import crypto from "crypto";
 
-const validPassword = (
-  hashedPassword: string,
-  password: string,
-  salt: string
-) => {
-  const hash = crypto
-    .pbkdf2Sync(hashedPassword, salt, 1000, 64, `sha512`)
-    .toString(`hex`);
-
-  return hashedPassword === hash;
-};
-
 const signIn = async (
   _parent: unknown,
   { input: { password, username } }: MutationSignInArgs,

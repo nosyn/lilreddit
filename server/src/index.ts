@@ -24,7 +24,6 @@ const initializeHttpServer = async () => {
 
   // Authentication
   app.use(authenticationMiddleware());
-  app.set("trust proxy", !__prod__);
 
   // Apollo Server
   const apolloServer = initializeApolloServer(httpServer);

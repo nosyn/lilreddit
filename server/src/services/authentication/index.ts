@@ -13,7 +13,7 @@ const authenticationMiddleware = () => {
     name: COOKIES_NAME,
     store: new RedisStore({
       client: redisClient,
-      disableTouch: true,
+      // disableTouch: true,
       disableTTL: true,
     }),
     saveUninitialized: false,
@@ -23,8 +23,8 @@ const authenticationMiddleware = () => {
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
       httpOnly: true, // cookie won't be accessible by Javascript on the front end
-      secure: true, // cookie only works in https
-      sameSite: __prod__ ? "lax" : "none", // csrf
+      // secure: true, // cookie only works in https, if you're using http for dev. This line should be disable
+      sameSite: "lax", // csrf
     },
   });
 };
