@@ -6,10 +6,9 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "dev": "yarn prisma migrate dev && nodemon --exec ts-node src/index.ts",
+    "dev": "yarn prisma migrate dev && concurrently \"yarn codegen:generate --watch\" \"nodemon --exec ts-node src/index.ts\"",
     "prisma:generate": "yarn prisma generate",
     "prisma:studio": "yarn prisma studio",
-    "codegen:watch": "graphql-codegen --config codegen.yml --watch",
     "codegen:generate": "graphql-codegen --config codegen.yml"
   },
   "devDependencies": {
@@ -20,6 +19,7 @@
     "@types/express": "^4.17.13",
     "@types/express-session": "^1.17.4",
     "@types/node": "^17.0.0",
+    "concurrently": "^7.1.0",
     "nodemon": "^2.0.15",
     "prisma": "^3.11.1",
     "ts-node": "^10.4.0",
