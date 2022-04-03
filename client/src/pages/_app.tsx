@@ -19,6 +19,7 @@ import theme from "../theme";
 
 // Apollo client
 import { client } from "../graphql/client";
+import { AppContextProvider } from "../context/AppContext";
 
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;
@@ -46,24 +47,26 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
         <link rel="shortcut icon" href="/favicon.svg" />
       </Head>
 
-      <ApolloProvider client={client}>
-        <ColorSchemeProvider
-          colorScheme={colorScheme}
-          toggleColorScheme={toggleColorScheme}
-        >
-          <MantineProvider
-            theme={{ ...theme, colorScheme }}
-            withGlobalStyles
-            withNormalizeCSS
+      <AppContextProvider>
+        <ApolloProvider client={client}>
+          <ColorSchemeProvider
+            colorScheme={colorScheme}
+            toggleColorScheme={toggleColorScheme}
           >
-            <NotificationsProvider>
-              <AppLayout>
-                <Component {...pageProps} />
-              </AppLayout>
-            </NotificationsProvider>
-          </MantineProvider>
-        </ColorSchemeProvider>
-      </ApolloProvider>
+            <MantineProvider
+              theme={{ ...theme, colorScheme }}
+              withGlobalStyles
+              withNormalizeCSS
+            >
+              <NotificationsProvider>
+                <AppLayout>
+                  <Component {...pageProps} />
+                </AppLayout>
+              </NotificationsProvider>
+            </MantineProvider>
+          </ColorSchemeProvider>
+        </ApolloProvider>
+      </AppContextProvider>
     </>
   );
 }

@@ -1,138 +1,110 @@
 import React from "react";
-import { useForm, useToggle, upperFirst } from "@mantine/hooks";
+
 import {
   TextInput,
   PasswordInput,
-  Text,
-  Paper,
-  Group,
-  PaperProps,
-  Button,
-  Divider,
   Checkbox,
   Anchor,
-  createStyles,
+  Paper,
+  Title,
+  Text,
+  Container,
+  Group,
+  Button,
 } from "@mantine/core";
-import { BrandGoogle, BrandTwitter } from "tabler-icons-react";
+import { SignInInputType } from "../types";
+import { useForm } from "@mantine/hooks";
 
-const useStyles = createStyles((theme) => ({
-  paper: {
-    backgroundColor:
-      theme.colorScheme === "light"
-        ? theme.colors.gray[0]
-        : theme.colors.gray[9],
-  },
-}));
+interface SignInFormProps {
+  handleSubmit: (values: SignInInputType) => void;
+  loading: boolean | undefined;
+}
 
-const SignInForm = (props: PaperProps<"div">) => {
-  const { classes } = useStyles();
-  const [type, toggle] = useToggle("login", ["login", "register"]);
-  const form = useForm({
+const SignInForm = ({ handleSubmit, loading }: SignInFormProps) => {
+  const form = useForm<SignInInputType>({
     initialValues: {
-      email: "",
       username: "",
       password: "",
-      terms: true,
     },
 
     validationRules: {
-      username: (val) => val.length >= 6,
-      email: (val) => /^\S+@\S+$/.test(val),
-      password: (val) => val.length >= 6,
+      username: (val) => val.length >= 1,
+      password: (val) => val.length >= 1,
+    },
+    errorMessages: {
+      username: <Text>Invalid username</Text>,
+      password: <Text>Invalid password</Text>,
     },
   });
 
   return (
-    <Paper radius="md" p="xl" className={classes.paper} withBorder {...props}>
-      <Text size="lg" weight={500}>
-        Welcome to Lil Reddit, {type} with
-      </Text>
-
-      <Group grow mb="md" mt="md">
-        <Button variant="default" leftIcon={<BrandGoogle />} radius="xl">
-          Google
-        </Button>
-        <Button
-          variant="default"
-          color="gray"
-          leftIcon={<BrandTwitter />}
-          radius="xl"
+    <Container>
+      <Title
+        align="center"
+        sx={(theme) => ({
+          fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+          fontWeight: 900,
+        })}
+      >
+        Welcome back!
+      </Title>
+      <Text color="dimmed" size="sm" align="center" mt={5}>
+        Do not have an account yet?{" "}
+        <Anchor<"a">
+          href="#"
+          size="sm"
+          onClick={(event) => event.preventDefault()}
         >
-          Twitter
-        </Button>
-      </Group>
-
-      <Divider
-        label="Or continue with username"
-        labelPosition="center"
-        my="lg"
-      />
-
-      <form onSubmit={form.onSubmit(() => {})}>
-        <Group direction="column" grow>
-          {type === "register" && (
-            <TextInput
-              required
-              label="Email"
-              placeholder="hello@mantine.dev"
-              value={form.values.email}
-              onChange={(event) =>
-                form.setFieldValue("email", event.currentTarget.value)
-              }
-              error={form.errors.email && "Invalid email"}
-            />
-          )}
-
+          Create account
+        </Anchor>
+      </Text>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
+        <Paper withBorder shadow="md" p={30} mt={30} radius="md">
           <TextInput
+            id="username-input"
+            aria-label="username-input"
             label="Username"
             placeholder="Your username"
             value={form.values.username}
             onChange={(event) =>
               form.setFieldValue("username", event.currentTarget.value)
             }
-          />
-
-          <PasswordInput
+            error={form.errors.username}
             required
+          />
+          <PasswordInput
+            id="password-input"
+            aria-label="password-input"
             label="Password"
             placeholder="Your password"
             value={form.values.password}
             onChange={(event) =>
               form.setFieldValue("password", event.currentTarget.value)
             }
-            error={
-              form.errors.password &&
-              "Password should include at least 6 characters"
-            }
+            error={form.errors.password}
+            required
+            mt="md"
           />
-
-          {type === "register" && (
+          <Group position="apart" mt="md">
             <Checkbox
-              label="I accept terms and conditions"
-              checked={form.values.terms}
-              onChange={(event) =>
-                form.setFieldValue("terms", event.currentTarget.checked)
-              }
+              id="remember-me-checkbox"
+              aria-label="remember-me-checkbox"
+              label="Remember me"
             />
-          )}
-        </Group>
-
-        <Group position="apart" mt="xl">
-          <Anchor
-            component="button"
-            type="button"
-            color="gray"
-            onClick={() => toggle()}
-            size="xs"
-          >
-            {type === "register"
-              ? "Already have an account? Login"
-              : "Don't have an account? Register"}
-          </Anchor>
-          <Button type="submit">{upperFirst(type)}</Button>
-        </Group>
+            <Anchor<"a">
+              onClick={(event) => event.preventDefault()}
+              href="#"
+              size="sm"
+            >
+              Forgot password?
+            </Anchor>
+          </Group>
+          <Button type="submit" fullWidth mt="xl" loading={loading}>
+            Sign in
+          </Button>
+        </Paper>
       </form>
-    </Paper>
+    </Container>
   );
 };
 
