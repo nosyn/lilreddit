@@ -36,7 +36,7 @@ const UserMenu = () => {
       <Menu.Label>View Options</Menu.Label>
       <Menu.Item
         icon={<MoonStars size={18} />}
-        rightSection={<Switch checked={isDarkTheme} />}
+        rightSection={<Switch checked={isDarkTheme} onChange={() => {}} />}
         onClick={() => toggleColorScheme()}
       >
         <Text size="sm">Dark Theme</Text>

@@ -1,4 +1,4 @@
-import { Box, createStyles } from "@mantine/core";
+import { Box, createStyles, Text } from "@mantine/core";
 import React from "react";
 import { SignInForm } from "../components/Forms";
 import { SignInInputType } from "../types";
@@ -9,6 +9,7 @@ import {
 } from "../graphql/generated/graphql";
 import { useRouter } from "next/router";
 import { ROUTES } from "../constants";
+import { useForm } from "@mantine/hooks";
 
 const useStyles = createStyles(() => ({
   container: {
@@ -22,12 +23,32 @@ const useStyles = createStyles(() => ({
 const SignIn = () => {
   const { classes } = useStyles();
   const router = useRouter();
+
+  const form = useForm<SignInInputType>({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+
+    validationRules: {
+      username: (val) => val.length >= 1,
+      password: (val) => val.length >= 1,
+    },
+    errorMessages: {
+      username: <Text>Invalid username</Text>,
+      password: <Text>Invalid password</Text>,
+    },
+  });
+
   const [signIn, { loading }] = useSignInMutation({
     onCompleted: () => {
       router.push(ROUTES.ROOT);
     },
     onError: (error) => {
-      console.log("error:", error.message);
+      form.setErrors(() => ({
+        username: <Text>{error.message}</Text>,
+        password: true,
+      }));
     },
     update: (cache, { data }) => {
       cache.writeQuery<MeQuery>({
@@ -55,7 +76,7 @@ const SignIn = () => {
 
   return (
     <Box className={classes.container}>
-      <SignInForm handleSubmit={handleSubmit} loading={loading} />
+      <SignInForm form={form} handleSubmit={handleSubmit} loading={loading} />
     </Box>
   );
 };

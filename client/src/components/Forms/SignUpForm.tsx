@@ -3,40 +3,33 @@ import React from "react";
 import {
   TextInput,
   PasswordInput,
-  Checkbox,
   Anchor,
   Paper,
   Title,
   Text,
   Container,
-  Group,
   Button,
+  createStyles,
 } from "@mantine/core";
-import { SignInInputType } from "../../types";
-import { useForm } from "@mantine/hooks";
+import { SignUpInputType } from "../../types";
+import Link from "next/link";
+import { UseForm } from "@mantine/hooks/lib/use-form/use-form";
+
+const useStyle = createStyles(() => ({
+  paper: {
+    minWidth: 400,
+  },
+}));
 
 interface SignInFormProps {
   // eslint-disable-next-line no-unused-vars
-  handleSubmit: (input: SignInInputType) => void;
+  handleSubmit: (input: SignUpInputType) => void;
+  form: UseForm<SignUpInputType>;
   loading: boolean | undefined;
 }
 
-const SignUpForm = ({ handleSubmit, loading }: SignInFormProps) => {
-  const form = useForm<SignInInputType>({
-    initialValues: {
-      username: "",
-      password: "",
-    },
-
-    validationRules: {
-      username: (val) => val.length >= 1,
-      password: (val) => val.length >= 1,
-    },
-    errorMessages: {
-      username: <Text>Invalid username</Text>,
-      password: <Text>Invalid password</Text>,
-    },
-  });
+const SignUpForm = ({ form, handleSubmit, loading }: SignInFormProps) => {
+  const { classes } = useStyle();
 
   return (
     <Container>
@@ -47,20 +40,36 @@ const SignUpForm = ({ handleSubmit, loading }: SignInFormProps) => {
           fontWeight: 900,
         })}
       >
-        Welcome back!
+        Welcome!
       </Title>
       <Text color="dimmed" size="sm" align="center" mt={5}>
-        Do not have an account yet?{" "}
-        <Anchor<"a">
-          href="#"
-          size="sm"
-          onClick={(event) => event.preventDefault()}
-        >
-          Create account
-        </Anchor>
+        Already have an account?{" "}
+        <Link href="/sign-up" passHref>
+          <Anchor<"a"> size="sm">Sign In</Anchor>
+        </Link>
       </Text>
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+        <Paper
+          className={classes.paper}
+          withBorder
+          shadow="md"
+          p={30}
+          mt={10}
+          radius="md"
+        >
+          <TextInput
+            id="email-input"
+            aria-label="email-input"
+            label="Email"
+            placeholder="Your email"
+            type="email"
+            value={form.values.email}
+            onChange={(event) =>
+              form.setFieldValue("email", event.currentTarget.value)
+            }
+            error={form.errors.email}
+            required
+          />
           <TextInput
             id="username-input"
             aria-label="username-input"
@@ -72,6 +81,7 @@ const SignUpForm = ({ handleSubmit, loading }: SignInFormProps) => {
             }
             error={form.errors.username}
             required
+            mt="xs"
           />
           <PasswordInput
             id="password-input"
@@ -84,24 +94,24 @@ const SignUpForm = ({ handleSubmit, loading }: SignInFormProps) => {
             }
             error={form.errors.password}
             required
-            mt="md"
+            mt="xs"
           />
-          <Group position="apart" mt="md">
-            <Checkbox
-              id="remember-me-checkbox"
-              aria-label="remember-me-checkbox"
-              label="Remember me"
-            />
-            <Anchor<"a">
-              onClick={(event) => event.preventDefault()}
-              href="#"
-              size="sm"
-            >
-              Forgot password?
-            </Anchor>
-          </Group>
+          <PasswordInput
+            id="confirm-password-input"
+            aria-label="confirm-password-input"
+            label="Confirm Password"
+            placeholder="Confirm your password"
+            value={form.values.confirmPassword}
+            onChange={(event) =>
+              form.setFieldValue("confirmPassword", event.currentTarget.value)
+            }
+            error={form.errors.confirmPassword}
+            required
+            mt="xs"
+          />
+
           <Button type="submit" fullWidth mt="xl" loading={loading}>
-            Sign in
+            Sign Up
           </Button>
         </Paper>
       </form>

@@ -1,43 +1,26 @@
-import React from "react";
-
 import {
-  TextInput,
-  PasswordInput,
-  Checkbox,
   Anchor,
-  Paper,
-  Title,
-  Text,
+  Button,
   Container,
   Group,
-  Button,
+  Paper,
+  PasswordInput,
+  Text,
+  TextInput,
+  Title,
 } from "@mantine/core";
+import { UseForm } from "@mantine/hooks/lib/use-form/use-form";
+import Link from "next/link";
 import { SignInInputType } from "../../types";
-import { useForm } from "@mantine/hooks";
 
 interface SignInFormProps {
   // eslint-disable-next-line no-unused-vars
   handleSubmit: (input: SignInInputType) => void;
+  form: UseForm<SignInInputType>;
   loading: boolean | undefined;
 }
 
-const SignInForm = ({ handleSubmit, loading }: SignInFormProps) => {
-  const form = useForm<SignInInputType>({
-    initialValues: {
-      username: "",
-      password: "",
-    },
-
-    validationRules: {
-      username: (val) => val.length >= 1,
-      password: (val) => val.length >= 1,
-    },
-    errorMessages: {
-      username: <Text>Invalid username</Text>,
-      password: <Text>Invalid password</Text>,
-    },
-  });
-
+const SignInForm = ({ form, handleSubmit, loading }: SignInFormProps) => {
   return (
     <Container>
       <Title
@@ -51,16 +34,12 @@ const SignInForm = ({ handleSubmit, loading }: SignInFormProps) => {
       </Title>
       <Text color="dimmed" size="sm" align="center" mt={5}>
         Do not have an account yet?{" "}
-        <Anchor<"a">
-          href="#"
-          size="sm"
-          onClick={(event) => event.preventDefault()}
-        >
-          Create account
-        </Anchor>
+        <Link href="/sign-up" passHref>
+          <Anchor<"a"> size="sm">Create account</Anchor>
+        </Link>
       </Text>
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+        <Paper withBorder shadow="md" p={30} mt={10} radius="md">
           <TextInput
             id="username-input"
             aria-label="username-input"
@@ -84,14 +63,9 @@ const SignInForm = ({ handleSubmit, loading }: SignInFormProps) => {
             }
             error={form.errors.password}
             required
-            mt="md"
+            mt="xs"
           />
-          <Group position="apart" mt="md">
-            <Checkbox
-              id="remember-me-checkbox"
-              aria-label="remember-me-checkbox"
-              label="Remember me"
-            />
+          <Group position="apart" mt="xs">
             <Anchor<"a">
               onClick={(event) => event.preventDefault()}
               href="#"
@@ -100,8 +74,8 @@ const SignInForm = ({ handleSubmit, loading }: SignInFormProps) => {
               Forgot password?
             </Anchor>
           </Group>
-          <Button type="submit" fullWidth mt="xl" loading={loading}>
-            Sign in
+          <Button type="submit" fullWidth mt="sm" loading={loading}>
+            Sign In
           </Button>
         </Paper>
       </form>
