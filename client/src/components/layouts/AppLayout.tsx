@@ -15,6 +15,7 @@ const useStyles = createStyles(() => ({
 
 const AppLayout = ({ children }: AppLayoutProps) => {
   const { classes } = useStyles();
+
   return (
     <Box>
       <NavBar />
