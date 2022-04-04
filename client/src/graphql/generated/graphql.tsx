@@ -72,12 +72,31 @@ export type Post = {
   updatedAt: Scalars['Date'];
 };
 
+export type PostInput = {
+  id: Scalars['Int'];
+};
+
+export type PostsInput = {
+  cursor?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
   ping: Scalars['String'];
-  post: Post;
-  posts?: Maybe<Array<Maybe<Post>>>;
+  post?: Maybe<Post>;
+  posts: Array<Maybe<Post>>;
+};
+
+
+export type QueryPostArgs = {
+  input: PostInput;
+};
+
+
+export type QueryPostsArgs = {
+  input: PostsInput;
 };
 
 export type SignInInput = {
@@ -133,10 +152,12 @@ export type PingQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type PingQuery = { __typename?: 'Query', ping: string };
 
-export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
+export type PostsQueryVariables = Exact<{
+  input: PostsInput;
+}>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts?: Array<{ __typename?: 'Post', content?: string | null, createdAt: any, updatedAt: any, id: number, title: string, author: { __typename?: 'User', username: string } } | null> | null };
+export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', content?: string | null, createdAt: any, updatedAt: any, id: number, title: string, author: { __typename?: 'User', username: string } } | null> };
 
 
 export const SignInDocument = gql`
@@ -308,8 +329,8 @@ export type PingQueryHookResult = ReturnType<typeof usePingQuery>;
 export type PingLazyQueryHookResult = ReturnType<typeof usePingLazyQuery>;
 export type PingQueryResult = Apollo.QueryResult<PingQuery, PingQueryVariables>;
 export const PostsDocument = gql`
-    query Posts {
-  posts {
+    query Posts($input: PostsInput!) {
+  posts(input: $input) {
     content
     createdAt
     updatedAt
@@ -334,10 +355,11 @@ export const PostsDocument = gql`
  * @example
  * const { data, loading, error } = usePostsQuery({
  *   variables: {
+ *      input: // value for 'input'
  *   },
  * });
  */
-export function usePostsQuery(baseOptions?: Apollo.QueryHookOptions<PostsQuery, PostsQueryVariables>) {
+export function usePostsQuery(baseOptions: Apollo.QueryHookOptions<PostsQuery, PostsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<PostsQuery, PostsQueryVariables>(PostsDocument, options);
       }

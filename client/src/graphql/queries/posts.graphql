@@ -1,5 +1,5 @@
-query Posts {
-  posts {
+query Posts($input: PostsInput!) {
+  posts(input: $input) {
     content
     createdAt
     updatedAt

@@ -74,17 +74,27 @@ export type PostInput = {
   id: Scalars['Int'];
 };
 
+export type PostsInput = {
+  cursor?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
   ping: Scalars['String'];
   post?: Maybe<Post>;
-  posts?: Maybe<Array<Maybe<Post>>>;
+  posts: Array<Maybe<Post>>;
 };
 
 
 export type QueryPostArgs = {
   input: PostInput;
+};
+
+
+export type QueryPostsArgs = {
+  input: PostsInput;
 };
 
 export type SignInInput = {
@@ -188,6 +198,7 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   Post: ResolverTypeWrapper<Post>;
   PostInput: PostInput;
+  PostsInput: PostsInput;
   Query: ResolverTypeWrapper<{}>;
   SignInInput: SignInInput;
   SignUpInput: SignUpInput;
@@ -206,6 +217,7 @@ export type ResolversParentTypes = {
   Mutation: {};
   Post: Post;
   PostInput: PostInput;
+  PostsInput: PostsInput;
   Query: {};
   SignInInput: SignInInput;
   SignUpInput: SignUpInput;
@@ -242,7 +254,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   ping?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   post?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<QueryPostArgs, 'input'>>;
-  posts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Post']>>>, ParentType, ContextType>;
+  posts?: Resolver<Array<Maybe<ResolversTypes['Post']>>, ParentType, ContextType, RequireFields<QueryPostsArgs, 'input'>>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {

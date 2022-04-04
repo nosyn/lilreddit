@@ -9,8 +9,8 @@ type Post {
 }
 
 type Query {
-  posts: [Post]
   post(input: PostInput!): Post
+  posts(input: PostsInput!): [Post]!
 }
 
 type Mutation {
@@ -20,6 +20,11 @@ type Mutation {
 }
 
 # Input
+input PostsInput {
+  cursor: Int
+  limit: Int
+}
+
 input PostInput {
   id: Int!
 }
