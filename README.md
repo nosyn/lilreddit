@@ -14,6 +14,7 @@
 - Grab the `CONTAINER ID` of `lilreddit_server`
 - Run the command to seed to the database:  
   `docker exec -it <server_container_id> yarn prisma migrate dev --name init`
+- If it's not working, remove the migrations dir inside prisma folder and exec inside the container and run the migration
 
 ## PostgresQL
 

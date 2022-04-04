@@ -34,6 +34,7 @@ const seedingPosts = async () => {
         content: post.content,
         title: post.title,
         authorId: post.authorId,
+        createdAt: new Date(post.createdAt),
       },
     });
 

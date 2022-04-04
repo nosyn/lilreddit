@@ -6,9 +6,15 @@ const posts = async (
   _args: unknown,
   context: Context
 ): Promise<Post[]> => {
+  const MAX_POST = 50;
+
   const posts = await context.prisma.post.findMany({
     include: {
       author: true,
+    },
+    take: MAX_POST,
+    orderBy: {
+      updatedAt: "asc",
     },
   });
 
