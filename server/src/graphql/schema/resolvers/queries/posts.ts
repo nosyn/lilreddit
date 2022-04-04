@@ -31,7 +31,7 @@ const posts = async (
         author: true,
       },
       orderBy: {
-        createdAt: "desc",
+        id: "desc",
       },
     });
   } else {
@@ -41,7 +41,7 @@ const posts = async (
         author: true,
       },
       orderBy: {
-        createdAt: "desc",
+        id: "desc",
       },
     });
   }

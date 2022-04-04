@@ -31,7 +31,6 @@ const seedingPosts = async () => {
   for (const post of posts) {
     await prisma.post.create({
       data: {
-        id: post.id,
         content: post.content,
         title: post.title,
         authorId: post.authorId,

@@ -11,6 +11,12 @@ const client = new ApolloClient({
           posts: {
             keyArgs: [],
             merge(existing: Post[] | [], incoming: Post[]): Post[] {
+              // Maximum the cache is 100 in the list
+              if (existing && existing.length > 75) {
+                const newExisting = existing.slice(25);
+                return [...newExisting, ...incoming];
+              }
+
               return [...(existing || []), ...incoming];
             },
           },
