@@ -6,6 +6,7 @@ import dateScalar from "../scalars/dateScalar";
 // Queries
 import me from "./queries/me";
 import posts from "./queries/posts";
+import post from "./queries/post";
 
 // Mutations
 import signIn from "./mutations/signIn";
@@ -21,6 +22,7 @@ const resolvers: Resolvers = {
     ping: () => `pong: ${Date.now()}`,
     me,
     posts,
+    post,
   },
   Mutation: {
     signIn,

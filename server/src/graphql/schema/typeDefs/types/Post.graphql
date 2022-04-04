@@ -10,7 +10,7 @@ type Post {
 
 type Query {
   posts: [Post]
-  post: Post!
+  post(input: PostInput!): Post
 }
 
 type Mutation {
@@ -20,6 +20,10 @@ type Mutation {
 }
 
 # Input
+input PostInput {
+  id: Int!
+}
+
 input CreatePostInput {
   title: String!
   content: String!
