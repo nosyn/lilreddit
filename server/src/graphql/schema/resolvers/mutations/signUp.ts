@@ -1,7 +1,7 @@
 import { UserInputError } from "apollo-server-express";
 import { Context } from "../../../context";
 import { MutationSignUpArgs, User } from "../../../generated/graphql";
-import crypto from "crypto";
+import { generateSalt, hashPassword } from "../../../../util/hashPassword";
 
 const signUp = async (
   _parent: unknown,
@@ -20,14 +20,10 @@ const signUp = async (
   }
 
   // Creating a unique salt for a particular user
-  const salt = crypto.randomBytes(16).toString("hex");
+  const salt = generateSalt();
 
   // Hashing user's salt and password with 1000 iterations,
-  const hashedPassword = crypto
-    .pbkdf2Sync(password, salt, 1000, 64, `sha512`)
-    .toString(`hex`);
-
-  console.log("hashedPassword: ", hashedPassword);
+  const hashedPassword = hashPassword(password, salt);
 
   const registeredUser = await prisma.user.create({
     data: {

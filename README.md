@@ -7,6 +7,14 @@
 
 # Debug
 
+# How to set up the dev env
+
+- Run `yarn dev` from the root level directory
+- Run `docker ps` to see all the containers id running
+- Grab the `CONTAINER ID` of `lilreddit_server`
+- Run the command to seed to the database:  
+  `docker exec -it <server_container_id> yarn prisma migrate dev --name init`
+
 ## PostgresQL
 
 - Update and install PostgreSQL `<version>`:  

@@ -8,6 +8,8 @@ COPY .env ./
 
 RUN yarn --non-interactive
 
+COPY ./prisma ./prisma
+
 RUN yarn prisma:generate
 
 COPY . .

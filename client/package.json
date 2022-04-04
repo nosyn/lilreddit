@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"yarn codegen:generate --watch\" \"next dev\"",
+    "dev": "concurrently \"next dev\" \"yarn codegen:generate --watch\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

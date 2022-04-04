@@ -1,7 +1,7 @@
 import { UserInputError } from "apollo-server-express";
 import { Context } from "../../../context";
 import { MutationSignInArgs, User } from "../../../generated/graphql";
-import crypto from "crypto";
+import { hashPassword } from "../../../../util/hashPassword";
 
 const signIn = async (
   _parent: unknown,
@@ -17,10 +17,10 @@ const signIn = async (
       rejectOnNotFound: true,
     })
     .then(async (user) => {
-      // Check for the password
-      const hash = crypto
-        .pbkdf2Sync(password, user.salt, 1000, 64, `sha512`)
-        .toString(`hex`);
+      // Hash the user input password with the user.salt
+      const hash = hashPassword(password, user.salt);
+
+      // Compare the password and the hash
       const isValid = hash === user.password;
 
       if (!isValid) throw new UserInputError("Incorrect username or password");

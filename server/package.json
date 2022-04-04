@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "dev": "yarn prisma migrate dev && concurrently \"yarn codegen:generate --watch\" \"nodemon --exec ts-node src/index.ts\"",
+    "dev": "concurrently \"nodemon --exec ts-node src/index.ts\" \"yarn codegen:generate --watch\"",
     "prisma:generate": "yarn prisma generate",
     "prisma:studio": "yarn prisma studio",
     "codegen:generate": "graphql-codegen --config codegen.yml"
@@ -41,6 +41,6 @@
     "uuid": "^8.3.2"
   },
   "prisma": {
-    "seed": "ts-node src/prisma/seed.ts"
+    "seed": "ts-node prisma/seed.ts"
   }
 }

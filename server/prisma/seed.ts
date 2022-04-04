@@ -1,59 +1,57 @@
-import { Prisma } from "@prisma/client";
-import prisma from ".";
+import { PrismaClient } from "@prisma/client";
+import { generateSalt, hashPassword } from "../src/util/hashPassword";
+import { users } from "./mocks/users";
+import { posts } from "./mocks/posts";
 
-// const userData: Prisma.UserCreateInput[] = [
-//   {
-//     email: "alice@prisma.io",
-//     posts: {
-//       create: [
-//         {
-//           title: "Join the Prisma Slack",
-//           content: "https://slack.prisma.io",
-//           published: true,
-//         },
-//       ],
-//     },
-//   },
-//   {
-//     email: "nilu@prisma.io",
-//     posts: {
-//       create: [
-//         {
-//           title: "Follow Prisma on Twitter",
-//           content: "https://www.twitter.com/prisma",
-//           published: true,
-//           viewCount: 42,
-//         },
-//       ],
-//     },
-//   },
-//   {
-//     email: "mahmoud@prisma.io",
-//     posts: {
-//       create: [
-//         {
-//           title: "Ask a question about Prisma on GitHub",
-//           content: "https://www.github.com/prisma/prisma/discussions",
-//           published: true,
-//           viewCount: 128,
-//         },
-//         {
-//           title: "Prisma on YouTube",
-//           content: "https://pris.ly/youtube",
-//         },
-//       ],
-//     },
-//   },
-// ];
+const prisma = new PrismaClient();
+
+const seedingUsers = async () => {
+  console.log(`Seeding users`);
+  for (const user of users) {
+    // Creating a unique salt for a particular user
+    const salt = generateSalt();
+
+    // Hashing user's salt and password with 1000 iterations,
+    const hashedPassword = hashPassword(user.password, salt);
+
+    await prisma.user.create({
+      data: {
+        email: user.email,
+        password: hashedPassword,
+        salt,
+        username: user.username,
+      },
+    });
+    console.log(`Created user ${user.username} with id: ${user.id}`);
+  }
+};
+
+const seedingPosts = async () => {
+  console.log(`Seeding posts`);
+  for (const post of posts) {
+    await prisma.post.create({
+      data: {
+        content: post.content,
+        title: post.title,
+        authorId: post.authorId,
+      },
+    });
+
+    console.log(
+      `Created posts with title ${post.title} for user with id: ${post.authorId}`
+    );
+  }
+};
 
 async function main() {
   console.log(`Start seeding ...`);
-  // for (const u of userData) {
-  //   const user = await prisma.user.create({
-  //     data: u,
-  //   });
-  //   console.log(`Created user with id: ${user.id}`);
-  // }
+
+  // Seeding Users
+  await seedingUsers();
+
+  // Seeding Posts
+  await seedingPosts();
+
   console.log(`Seeding finished.`);
 }
 
