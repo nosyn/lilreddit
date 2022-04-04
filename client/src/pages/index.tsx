@@ -25,18 +25,17 @@ const HomePage = () => {
     });
   };
 
-  console.log("loading: ", loading);
   if (error) return <div>Error</div>;
 
   return (
     <Container>
       {data?.posts ? (
         <Stack spacing="sm">
-          {data.posts.map((post, index) =>
+          {data.posts.map((post) =>
             !post ? null : (
               <Post
                 author={post.author}
-                title={`${index + 1} ${post.id} ${post.title}`}
+                title={post.title}
                 createdAt={post.createdAt}
                 description={post.content?.slice(0, 100)}
                 key={post.id}
