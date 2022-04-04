@@ -14,8 +14,7 @@ const HomePage = () => {
     notifyOnNetworkStatusChange: true,
   });
 
-  const handleOnClick = (event: any) => {
-    event.preventDefault();
+  const handleOnClick = () => {
     fetchMore({
       variables: {
         input: {
