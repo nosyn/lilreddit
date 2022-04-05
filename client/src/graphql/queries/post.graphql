@@ -1,0 +1,13 @@
+query Post($input: PostInput!) {
+  post(input: $input) {
+    title
+    id
+    authorId
+    content
+    author {
+      id
+      email
+      username
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import { Button, Container, Stack } from "@mantine/core";
-import Post from "../components/Post";
+import { PostCard } from "../components/Post";
 import { usePostsQuery } from "../graphql/generated/graphql";
 
 const HomePage = () => {
@@ -34,9 +34,10 @@ const HomePage = () => {
         <Stack spacing="sm">
           {data.posts.map((post, index) =>
             !post ? null : (
-              <Post
+              <PostCard
+                id={post.id}
                 author={post.author}
-                title={`${index + 1} ${post.id} ${post.title}`}
+                title={post.title}
                 createdAt={post.createdAt}
                 description={post.content?.slice(0, 100)}
                 key={post.id}
