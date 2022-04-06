@@ -25,14 +25,13 @@ const HomePage = () => {
     });
   };
 
-  console.log("loading: ", loading);
   if (error) return <div>Error</div>;
 
   return (
     <Container>
       {data?.posts ? (
         <Stack spacing="sm">
-          {data.posts.map((post, index) =>
+          {data.posts.map((post) =>
             !post ? null : (
               <PostCard
                 id={post.id}

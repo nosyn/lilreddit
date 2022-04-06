@@ -4,9 +4,7 @@ import Link from "next/link";
 import { useGetPostFromUrl } from "../../hooks/useGetPostFromUrl";
 import { Post } from "../../components/Post";
 
-interface PostProps {}
-
-const PostPage = ({}: PostProps) => {
+const PostPage = () => {
   const { data, loading, error } = useGetPostFromUrl();
 
   return (

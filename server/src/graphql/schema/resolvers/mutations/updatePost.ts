@@ -17,7 +17,9 @@ const updatePost = async (
   });
 
   if (!post) {
-    throw new ValidationError("Couldn't find post");
+    throw new ValidationError(
+      "Couldn't find post or you're not authorized to update this post"
+    );
   }
 
   const updatedPost = await prisma.post.update({
