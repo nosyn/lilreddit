@@ -1,0 +1,67 @@
+# docker-compose version
+version: "3.6"
+
+volumes:
+  postgres-volume:
+  redis-volume:
+
+services:
+  redis:
+    image: bitnami/redis:6.2
+    restart: always
+    volumes:
+      - redis-volume:/bitnami/redis/data
+    environment:
+      REDIS_PASSWORD: &redis_password redispassword
+
+  postgres:
+    image: postgres:10.5
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=lilreddit
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+  # copy the sql script to create tables
+  # - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    # volumes:
+    #   - ./server:/app
+    environment:
+      REDIS_PASSWORD: *redis_password
+      NODE_ENV: &global_env development
+    depends_on:
+      - postgres
+      - redis
+
+  client:
+    stdin_open: true # needed to allow react-scripts to watch for changes
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    # volumes:
+    #   - ./client:/app
+    depends_on:
+      - server
+    environment:
+      NODE_ENV: *global_env
+
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    ports:
+      - 8080:8080
+    depends_on:
+      - server
+      - client

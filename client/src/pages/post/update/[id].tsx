@@ -6,15 +6,14 @@ import {
   ActionIcon,
   createStyles,
   TextInput,
-  Paper,
 } from "@mantine/core";
 import React, { useState } from "react";
 import {
   PostQuery,
   useMeQuery,
   useUpdatePostMutation,
-} from "../../graphql/generated/graphql";
-import { Edit, DeviceFloppy, X } from "tabler-icons-react";
+} from "../../../graphql/generated/graphql";
+import { DeviceFloppy, X } from "tabler-icons-react";
 interface PostProps {
   data: PostQuery;
 }
@@ -28,8 +27,8 @@ const useStyles = createStyles((theme) => ({
   paper: {
     backgroundColor:
       theme.colorScheme === "dark"
-        ? theme.colors.dark[8]
-        : theme.colors.gray[0],
+        ? theme.colors.gray[9]
+        : theme.colors.gray[2],
   },
   textArea: {
     fontSize: "16px",
@@ -40,9 +39,8 @@ const useStyles = createStyles((theme) => ({
 export const splitIntoParagraphs = (content: string) =>
   content.split(/\n/).filter((content) => content.length > 0);
 
-const Post = ({ data }: PostProps) => {
+const UpdatePost = ({ data }: PostProps) => {
   // Hooks
-  const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [content, setContent] = useState<string>(
     data.post?.content || "No content"
   );
@@ -59,12 +57,9 @@ const Post = ({ data }: PostProps) => {
   const { data: MeData } = useMeQuery();
 
   // Event handlers
-  const handleOnToggleEditMode = () => {
-    setIsEditMode((isEditMode) => !isEditMode);
-  };
+  const handleOnToggleEditMode = () => {};
 
   const handleOnClickSaveIcon = () => {
-    setIsEditMode(false);
     if (!data.post?.id) {
       console.log("Can't update post. Invalid post id");
       return;
@@ -94,44 +89,28 @@ const Post = ({ data }: PostProps) => {
     setContent(event.currentTarget.value);
   };
 
-  const paragraphs: string[] = data.post?.content
-    ? splitIntoParagraphs(data.post.content)
-    : [];
-
-  const renderEditMode = () =>
-    isEditMode ? (
-      <>
-        <TextInput
-          color="blue"
-          value={title}
-          styles={{
-            input: {
-              width: `${title.length * 0.5}rem`,
-              minWidth: "150px",
-            },
-          }}
-          onChange={handleOnChangeTitle}
-          size="xs"
-        />
-        <ActionIcon onClick={handleOnClickSaveIcon}>
-          <DeviceFloppy size={36} />
-        </ActionIcon>
-        <ActionIcon onClick={handleOnToggleEditMode}>
-          <X size={36} />
-        </ActionIcon>
-      </>
-    ) : (
-      <>
-        <Title order={3}>
-          <Text color="blue" inherit component="span">
-            {data.post?.title}
-          </Text>
-        </Title>
-        <ActionIcon onClick={handleOnToggleEditMode}>
-          <Edit size={36} />
-        </ActionIcon>
-      </>
-    );
+  const renderEditMode = () => (
+    <>
+      <TextInput
+        color="blue"
+        value={title}
+        styles={{
+          input: {
+            width: `${title.length * 0.5}rem`,
+            minWidth: "150px",
+          },
+        }}
+        onChange={handleOnChangeTitle}
+        size="xs"
+      />
+      <ActionIcon onClick={handleOnClickSaveIcon}>
+        <DeviceFloppy size={36} />
+      </ActionIcon>
+      <ActionIcon onClick={handleOnToggleEditMode}>
+        <X size={36} />
+      </ActionIcon>
+    </>
+  );
 
   return (
     <Box>
@@ -151,26 +130,17 @@ const Post = ({ data }: PostProps) => {
           By {data.post?.author.username}
         </Text>
       </Title>
-      {!isEditMode ? (
-        <Paper px="sm" py={1} className={classes.paper} withBorder>
-          {paragraphs.map((p, index) => (
-            <Text inherit component="p" key={index}>
-              {p}
-            </Text>
-          ))}
-        </Paper>
-      ) : (
-        <Textarea
-          classNames={{ input: classes.textArea }}
-          value={content}
-          onChange={handleOnChangeContent}
-          placeholder="Your post goes here...."
-          required
-          autosize
-        />
-      )}
+
+      <Textarea
+        classNames={{ input: classes.textArea }}
+        value={content}
+        onChange={handleOnChangeContent}
+        placeholder="Your post goes here...."
+        required
+        autosize
+      />
     </Box>
   );
 };
 
-export default Post;
+export default UpdatePost;

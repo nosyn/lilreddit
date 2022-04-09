@@ -10,17 +10,17 @@ const updatePost = async (
   const userId = req.session.userId;
   if (!userId) throw new AuthenticationError("Not authenticated");
 
-  const post = await prisma.post.findFirst({
-    where: {
-      AND: [{ authorId: userId }, { id }],
-    },
-  });
+  // const post = await prisma.post.findFirst({
+  //   where: {
+  //     AND: [{ authorId: userId }, { id }],
+  //   },
+  // });
 
-  if (!post) {
-    throw new ValidationError(
-      "Couldn't find post or you're not authorized to update this post"
-    );
-  }
+  // if (!post) {
+  //   throw new ValidationError(
+  //     "Couldn't find post or you're not authorized to update this post"
+  //   );
+  // }
 
   const updatedPost = await prisma.post.update({
     where: {
