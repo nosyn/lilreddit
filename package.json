@@ -3,6 +3,7 @@
   "scripts": {
     "start": "docker-compose up",
     "dev": "docker-compose -f docker-compose.dev.yml up",
-    "clean:dev": "docker-compose -f docker-compose.dev.yml down -v --remove-orphans"
+    "clean:dev": "docker-compose -f docker-compose.dev.yml down -v --remove-orphans",
+    "kompose:convert": "kompose convert -o ./deploy"
   }
 }

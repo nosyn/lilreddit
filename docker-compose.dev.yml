@@ -30,6 +30,15 @@ services:
   # copy the sql script to create tables
   # - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
 
+  migration:
+    build:
+      context: ./server
+      dockerfile: ./prisma/Dockerfile.dev
+    environment:
+      NODE_ENV: &global_env development
+    depends_on:
+      - postgres
+
   server:
     build:
       context: ./server
@@ -38,10 +47,10 @@ services:
       - ./server:/app
     environment:
       REDIS_PASSWORD: *redis_password
-      NODE_ENV: &global_env development
+      NODE_ENV: *global_env
     depends_on:
-      - postgres
       - redis
+      - migration
 
   client:
     stdin_open: true # needed to allow react-scripts to watch for changes

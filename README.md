@@ -26,3 +26,13 @@
 
 - Stop the PostgreSQL server:  
   `sudo service postgresql stop`
+
+# Running with minikube and kubectl
+
+- Prerequisites: Having `minikube` and `kubectl` installed on your machine
+- From root direc
+- `minikube delete` to clean up your machine
+- `minikube start`
+- `minikube addons enable ingress` - Using the NGINX Ingress Controller
+- `kubectl apply -f deploy`
+- `minikube service nginx-tcp`
