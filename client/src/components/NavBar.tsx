@@ -10,16 +10,18 @@ import {
 } from "@mantine/core";
 import { Search } from "tabler-icons-react";
 import { BrandReddit } from "tabler-icons-react";
-import { NAVBAR_HEIGHT, NAVBAR_MARGIN_BOTTOM } from "../configs/uiConfigs";
+import { NAVBAR_HEIGHT } from "../configs/uiConfigs";
 import Link from "next/link";
 import { AuthUserMenu, UserMenu } from "./Menu";
-import { useMeQuery } from "../graphql/generated/graphql";
+import { useMeQuery, usePostsQuery } from "../graphql/generated/graphql";
+import { useRouter } from "next/router";
+import { ROUTES } from "../constants";
 
 const useStyles = createStyles((theme) => ({
   header: {
     paddingLeft: theme.spacing.md,
     paddingRight: theme.spacing.md,
-    position: "sticky",
+    position: "fixed",
   },
 
   inner: {
@@ -65,17 +67,42 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+type TitleListType = {
+  value: string;
+  id: number;
+};
+
 const NavBar = () => {
   const { data } = useMeQuery();
   // const [opened, toggleOpened] = useBooleanToggle(false);
   const { classes } = useStyles();
+  const { data: postData } = usePostsQuery({
+    fetchPolicy: "cache-only",
+  });
+  const router = useRouter();
+
+  const total = [0, 1, 2, 3].reduce((a, b) => {
+    return a + b;
+  });
+  console.log("total is : " + total);
+
+  const postTitle: TitleListType[] | [] = postData?.posts
+    ? postData.posts.reduce((prev: TitleListType[] | [], current) => {
+        if (current && current.title && current.id)
+          return [
+            ...prev,
+            {
+              value: current.title,
+              id: current.id,
+            },
+          ];
+
+        return prev;
+      }, [])
+    : [];
 
   return (
-    <Header
-      height={NAVBAR_HEIGHT}
-      className={classes.header}
-      mb={NAVBAR_MARGIN_BOTTOM}
-    >
+    <Header height={NAVBAR_HEIGHT} className={classes.header}>
       <Box className={classes.inner}>
         <Group>
           {/* <Burger opened={opened} onClick={() => toggleOpened()} size="sm" /> */}
@@ -90,15 +117,15 @@ const NavBar = () => {
           className={classes.search}
           placeholder="Search"
           icon={<Search size={16} />}
-          data={[
-            "React",
-            "Angular",
-            "Vue",
-            "Next.js",
-            "Riot.js",
-            "Svelte",
-            "Blitz.js",
-          ]}
+          transition="pop-top-left"
+          transitionDuration={80}
+          transitionTimingFunction="ease"
+          data={postTitle}
+          onItemSubmit={(value) => {
+            router.push({
+              pathname: `${ROUTES.POST}/${value.id}`,
+            });
+          }}
         />
 
         {data?.me ? (

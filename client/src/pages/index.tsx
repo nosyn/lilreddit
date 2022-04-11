@@ -1,14 +1,14 @@
 import { Button, Container, Stack } from "@mantine/core";
 import { PostCard } from "../components/Post";
+import { POSTS_LIMIT } from "../constants";
 import { usePostsQuery } from "../graphql/generated/graphql";
 
 const HomePage = () => {
-  const LIMIT = 25;
   const { data, loading, error, fetchMore } = usePostsQuery({
     variables: {
       input: {
         cursor: null,
-        limit: LIMIT,
+        limit: POSTS_LIMIT,
       },
     },
     notifyOnNetworkStatusChange: true,
@@ -18,7 +18,7 @@ const HomePage = () => {
     fetchMore({
       variables: {
         input: {
-          limit: LIMIT,
+          limit: POSTS_LIMIT,
           cursor: data?.posts[data.posts.length - 1]?.id,
         },
       },
@@ -39,12 +39,12 @@ const HomePage = () => {
                 title={post.title}
                 createdAt={post.createdAt}
                 description={post.content?.slice(0, 100)}
-                key={post.id}
+                key={post.title}
               />
             )
           )}
           <Button onClick={handleOnClick} loading={loading}>
-            Load More
+            Load Moreee
           </Button>
         </Stack>
       ) : (

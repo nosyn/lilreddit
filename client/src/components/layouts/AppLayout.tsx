@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Box, Container, createStyles } from "@mantine/core";
 import NavBar from "../NavBar";
-import { NAVBAR_HEIGHT, NAVBAR_MARGIN_BOTTOM } from "../../configs/uiConfigs";
+import { NAVBAR_HEIGHT } from "../../configs/uiConfigs";
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -9,7 +9,7 @@ interface AppLayoutProps {
 
 const useStyles = createStyles(() => ({
   container: {
-    height: `calc(100vh - ${NAVBAR_HEIGHT}px - ${NAVBAR_MARGIN_BOTTOM}px)`,
+    paddingTop: `calc(${NAVBAR_HEIGHT}px + 10px)`,
   },
 }));
 
