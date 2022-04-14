@@ -10,10 +10,10 @@ import {
 import React, { useState } from "react";
 import {
   PostQuery,
-  useMeQuery,
   useUpdatePostMutation,
 } from "../../../graphql/generated/graphql";
 import { DeviceFloppy, X } from "tabler-icons-react";
+import useAuth from "../../../hooks/useAuth";
 interface PostProps {
   data: PostQuery;
 }
@@ -54,7 +54,7 @@ const UpdatePost = ({ data }: PostProps) => {
     },
   });
   const { classes } = useStyles();
-  const { data: MeData } = useMeQuery();
+  const { me } = useAuth();
 
   // Event handlers
   const handleOnToggleEditMode = () => {};
@@ -70,7 +70,6 @@ const UpdatePost = ({ data }: PostProps) => {
       title,
       content,
     };
-    console.log("input: ", input);
 
     updatePost({
       variables: {
@@ -115,7 +114,7 @@ const UpdatePost = ({ data }: PostProps) => {
   return (
     <Box>
       <Box className={classes.titleContainer} mt="xs">
-        {MeData?.me?.id === data.post?.authorId ? (
+        {me?.id === data.post?.authorId ? (
           renderEditMode()
         ) : (
           <Title order={3}>

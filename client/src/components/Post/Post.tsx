@@ -11,10 +11,10 @@ import {
 import React, { useState } from "react";
 import {
   PostQuery,
-  useMeQuery,
   useUpdatePostMutation,
 } from "../../graphql/generated/graphql";
 import { Edit, DeviceFloppy, X } from "tabler-icons-react";
+import useAuth from "../../hooks/useAuth";
 interface PostProps {
   data: PostQuery;
 }
@@ -56,7 +56,7 @@ const Post = ({ data }: PostProps) => {
     },
   });
   const { classes } = useStyles();
-  const { data: MeData } = useMeQuery();
+  const { me } = useAuth();
 
   // Event handlers
   const handleOnToggleEditMode = () => {
@@ -66,7 +66,6 @@ const Post = ({ data }: PostProps) => {
   const handleOnClickSaveIcon = () => {
     setIsEditMode(false);
     if (!data.post?.id) {
-      console.log("Can't update post. Invalid post id");
       return;
     }
 
@@ -75,7 +74,6 @@ const Post = ({ data }: PostProps) => {
       title,
       content,
     };
-    console.log("input: ", input);
 
     updatePost({
       variables: {
@@ -136,7 +134,7 @@ const Post = ({ data }: PostProps) => {
   return (
     <Box>
       <Box className={classes.titleContainer} mt="xs">
-        {MeData?.me?.id === data.post?.authorId ? (
+        {me?.id === data.post?.authorId ? (
           renderEditMode()
         ) : (
           <Title order={3}>

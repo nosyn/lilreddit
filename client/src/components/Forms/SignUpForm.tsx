@@ -32,7 +32,7 @@ const SignUpForm = ({ form, handleSubmit, loading }: SignInFormProps) => {
   const { classes } = useStyle();
 
   return (
-    <Container>
+    <Container mt="100px">
       <Title
         align="center"
         sx={(theme) => ({
@@ -44,7 +44,7 @@ const SignUpForm = ({ form, handleSubmit, loading }: SignInFormProps) => {
       </Title>
       <Text color="dimmed" size="sm" align="center" mt={5}>
         Already have an account?{" "}
-        <Link href="/sign-up" passHref>
+        <Link href="/sign-in" passHref>
           <Anchor<"a"> size="sm">Sign In</Anchor>
         </Link>
       </Text>

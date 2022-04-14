@@ -13,9 +13,10 @@ import { BrandReddit } from "tabler-icons-react";
 import { NAVBAR_HEIGHT } from "../configs/uiConfigs";
 import Link from "next/link";
 import { AuthUserMenu, UserMenu } from "./Menu";
-import { useMeQuery, usePostsQuery } from "../graphql/generated/graphql";
+import { usePostsQuery } from "../graphql/generated/graphql";
 import { useRouter } from "next/router";
 import { ROUTES } from "../constants";
+import useAuth from "../hooks/useAuth";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -73,18 +74,13 @@ type TitleListType = {
 };
 
 const NavBar = () => {
-  const { data } = useMeQuery();
+  const { me } = useAuth();
   // const [opened, toggleOpened] = useBooleanToggle(false);
   const { classes } = useStyles();
   const { data: postData } = usePostsQuery({
     fetchPolicy: "cache-only",
   });
   const router = useRouter();
-
-  const total = [0, 1, 2, 3].reduce((a, b) => {
-    return a + b;
-  });
-  console.log("total is : " + total);
 
   const postTitle: TitleListType[] | [] = postData?.posts
     ? postData.posts.reduce((prev: TitleListType[] | [], current) => {
@@ -128,8 +124,8 @@ const NavBar = () => {
           }}
         />
 
-        {data?.me ? (
-          <AuthUserMenu user={data.me} />
+        {me ? (
+          <AuthUserMenu user={me} />
         ) : (
           <Group>
             <Group ml={50} spacing={5} className={classes.links}>
