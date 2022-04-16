@@ -20,7 +20,7 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-const SignUp = () => {
+const SignUpPage = () => {
   const { classes } = useStyles();
   const router = useRouter();
   const form = useForm<SignUpInputType>({
@@ -89,4 +89,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignUpPage;

@@ -47,14 +47,14 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-function NotFoundImage() {
+function NotFoundPage() {
   const { classes } = useStyles();
 
   return (
     <Container className={classes.root}>
       <Box className={classes.imageContainer}>
         <Image
-          src={"/images/404_guava.jpg"}
+          src={"/assets/images/404_guava.jpg"}
           width={360}
           height={360}
           alt="404 image"
@@ -76,4 +76,4 @@ function NotFoundImage() {
   );
 }
 
-export default NotFoundImage;
+export default NotFoundPage;

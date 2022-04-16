@@ -1,6 +1,7 @@
 import React from "react";
 import { createStyles, Card, Avatar, Text, Group } from "@mantine/core";
 import Link from "next/link";
+import RichTextEditor from "@components/RichTextEditor";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -21,6 +22,7 @@ const useStyles = createStyles((theme) => ({
 
   body: {
     padding: theme.spacing.md,
+    width: "100%",
   },
 }));
 
@@ -50,9 +52,20 @@ const PostCard = ({ id, description, title, createdAt, author }: PostProps) => {
         <Group noWrap spacing={0}>
           <div className={classes.body}>
             <Text className={classes.title}>{title}</Text>
-            <Text mt="xs" mb="sm">
-              {description}
-            </Text>
+            {description && (
+              <RichTextEditor
+                value={description}
+                onChange={() => {}}
+                readOnly
+                styles={() => ({
+                  root: {
+                    maxHeight: "100px",
+                    overflow: "hidden",
+                  },
+                })}
+                my="xs"
+              />
+            )}
             <Group noWrap spacing="xs">
               <Group spacing="xs" noWrap>
                 <Avatar size={20} src={author?.avatar} />

@@ -20,7 +20,7 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-const SignIn = () => {
+const SignInPage = () => {
   const { classes } = useStyles();
   const router = useRouter();
 
@@ -81,4 +81,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignInPage;

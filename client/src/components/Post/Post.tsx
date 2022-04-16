@@ -1,12 +1,10 @@
 import {
   Box,
   Text,
-  Textarea,
   Title,
   ActionIcon,
   createStyles,
   TextInput,
-  Paper,
 } from "@mantine/core";
 import React, { useState } from "react";
 import {
@@ -15,6 +13,7 @@ import {
 } from "../../graphql/generated/graphql";
 import { Edit, DeviceFloppy, X } from "tabler-icons-react";
 import useAuth from "../../hooks/useAuth";
+import RichTextEditor from "@components/RichTextEditor";
 interface PostProps {
   data: PostQuery;
 }
@@ -86,16 +85,6 @@ const Post = ({ data }: PostProps) => {
     setTitle(event.currentTarget.value);
   };
 
-  const handleOnChangeContent = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setContent(event.currentTarget.value);
-  };
-
-  const paragraphs: string[] = data.post?.content
-    ? splitIntoParagraphs(data.post.content)
-    : [];
-
   const renderEditMode = () =>
     isEditMode ? (
       <>
@@ -149,24 +138,13 @@ const Post = ({ data }: PostProps) => {
           By {data.post?.author.username}
         </Text>
       </Title>
-      {!isEditMode ? (
-        <Paper px="sm" py={1} className={classes.paper} withBorder>
-          {paragraphs.map((p, index) => (
-            <Text inherit component="p" key={index}>
-              {p}
-            </Text>
-          ))}
-        </Paper>
-      ) : (
-        <Textarea
-          classNames={{ input: classes.textArea }}
-          value={content}
-          onChange={handleOnChangeContent}
-          placeholder="Your post goes here...."
-          required
-          autosize
-        />
-      )}
+      <RichTextEditor
+        placeholder="Text (optional)"
+        value={content}
+        onChange={setContent}
+        my="xs"
+        readOnly={!isEditMode}
+      />
     </Box>
   );
 };
