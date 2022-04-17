@@ -100,8 +100,8 @@ const HomePage = () => {
               />
             )
           )}
-          <Button onClick={handleOnClick} loading={loading}>
-            Load Moreee
+          <Button mb="md" onClick={handleOnClick} loading={loading}>
+            {loading ? "Loading" : "Load More"}
           </Button>
         </Stack>
       ) : (
