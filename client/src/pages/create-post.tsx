@@ -4,6 +4,8 @@ import RichTextEditor from "@components/RichTextEditor";
 import { Button, Container, TextInput, Box, createStyles } from "@mantine/core";
 import { NAVBAR_HEIGHT } from "../configs/uiConfigs";
 import { useCreatePostMutation } from "graphql/generated/graphql";
+import { useRouter } from "next/router";
+import ROUTES from "@constants/Routes";
 
 interface CreatePostPageProps {}
 
@@ -25,10 +27,13 @@ const useStyles = createStyles((theme) => ({
 
 const CreatePostPage = ({}: CreatePostPageProps) => {
   const [title, setTitle] = useState("");
+
   const [content, setContent] = useState("");
   const { classes } = useStyles();
+  const router = useRouter();
   const [createPost] = useCreatePostMutation({
     onCompleted: (data) => {
+      router.push(`${ROUTES.POST}/${data.createPost.id}`);
       console.log("data: ", data);
     },
   });
@@ -40,6 +45,11 @@ const CreatePostPage = ({}: CreatePostPageProps) => {
           content,
           title,
         },
+      },
+      update: (cache) => {
+        cache.evict({
+          fieldName: "posts:{}",
+        });
       },
     });
   };
@@ -76,6 +86,9 @@ const CreatePostPage = ({}: CreatePostPageProps) => {
         value={title}
         onChange={handleOnTitleChange}
         required
+        label="title-input"
+        aria-label="title-input"
+        error={title.length <= 0 && "Post title can't be empty"}
       />
       <RichTextEditor
         className={classes.richTextEditor}

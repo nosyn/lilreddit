@@ -15,7 +15,7 @@ import useAuth from "../hooks/useAuth";
 import { Photo, Link } from "tabler-icons-react";
 import { useRouter } from "next/router";
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles(() => ({
   textInputCard: {
     display: "flex",
     alignItems: "center",
@@ -24,7 +24,6 @@ const useStyles = createStyles((theme) => ({
   },
   textInput: {
     flexGrow: 1,
-    // height: 24,
     "&: hover": {
       border: "1px solid grey",
       cursor: "pointer",
