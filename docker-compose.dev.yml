@@ -63,7 +63,8 @@ services:
       - server
     environment:
       NODE_ENV: *global_env
-      IMAGEBB_API_KEY: "e413f5873c0f27acfc175c76644e7f40"
+      # Get the new API KEY from imagebb.com to get image upload working
+      IMAGEBB_API_KEY: "your-api-should-go-here" #
 
   nginx:
     restart: always
