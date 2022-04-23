@@ -79,20 +79,6 @@ const AuthUserMenu = ({ user }: AuthUserMenuProps) => {
       >
         <Text size="sm">Dark Theme</Text>
       </Menu.Item>
-      <Menu.Label>Application</Menu.Label>
-      <Menu.Item icon={<Settings size={14} />}>Settings</Menu.Item>
-      <Menu.Item icon={<MessageCircle size={14} />}>Messages</Menu.Item>
-      <Menu.Item icon={<Photo size={14} />}>Gallery</Menu.Item>
-      <Menu.Item
-        icon={<Search size={14} />}
-        rightSection={
-          <Text size="xs" color="dimmed">
-            ⌘K
-          </Text>
-        }
-      >
-        Search
-      </Menu.Item>
       <Divider />
 
       <Menu.Item

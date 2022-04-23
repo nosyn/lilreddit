@@ -63,6 +63,7 @@ services:
       - server
     environment:
       NODE_ENV: *global_env
+      IMAGEBB_API_KEY: "e413f5873c0f27acfc175c76644e7f40"
 
   nginx:
     restart: always

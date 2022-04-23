@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Box, Container, createStyles } from "@mantine/core";
 import NavBar from "../NavBar";
-import { NAVBAR_HEIGHT } from "../../configs/uiConfigs";
+import { NAVBAR_HEIGHT } from "../../configs";
 
 interface AppLayoutProps {
   children: ReactNode;

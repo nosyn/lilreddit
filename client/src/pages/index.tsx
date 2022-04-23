@@ -6,13 +6,12 @@ import {
   Avatar,
   TextInput,
   Card,
-  ActionIcon,
+  Box,
 } from "@mantine/core";
 import { PostCard } from "../components/Post";
 import { POSTS_LIMIT } from "../constants";
 import { usePostsQuery } from "../graphql/generated/graphql";
 import useAuth from "../hooks/useAuth";
-import { Photo, Link } from "tabler-icons-react";
 import { useRouter } from "next/router";
 
 const useStyles = createStyles(() => ({
@@ -78,12 +77,6 @@ const HomePage = () => {
               router.push("/create-post");
             }}
           />
-          <ActionIcon size="lg">
-            <Photo size={28} />
-          </ActionIcon>
-          <ActionIcon size="lg">
-            <Link size={28} />
-          </ActionIcon>
         </Card>
       )}
       {data?.posts ? (
@@ -105,7 +98,7 @@ const HomePage = () => {
           </Button>
         </Stack>
       ) : (
-        <div>Null</div>
+        <Box>No more post</Box>
       )}
     </Container>
   );

@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import { Search } from "tabler-icons-react";
 import { BrandReddit } from "tabler-icons-react";
-import { NAVBAR_HEIGHT } from "../configs/uiConfigs";
+import { NAVBAR_HEIGHT } from "../configs";
 import Link from "next/link";
 import { AuthUserMenu, UserMenu } from "./Menu";
 import { usePostsQuery } from "../graphql/generated/graphql";

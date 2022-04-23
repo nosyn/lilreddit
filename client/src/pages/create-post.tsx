@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import RichTextEditor from "@components/RichTextEditor";
 
 import { Button, Container, TextInput, Box, createStyles } from "@mantine/core";
-import { NAVBAR_HEIGHT } from "../configs/uiConfigs";
+import { IMAGEBB_API_KEY, NAVBAR_HEIGHT } from "../configs";
 import { useCreatePostMutation } from "graphql/generated/graphql";
 import { useRouter } from "next/router";
 import ROUTES from "@constants/Routes";
 
 interface CreatePostPageProps {}
-
-const API_KEY = "e413f5873c0f27acfc175c76644e7f40";
 
 const useStyles = createStyles((theme) => ({
   toolbar: {
@@ -61,12 +59,17 @@ const CreatePostPage = ({}: CreatePostPageProps) => {
   // Example with imgbb.com, usually you would use similar logic to upload to S3 like storages
   // Function must return a promise that resolves with uploaded image url
   // After promise is resolved blurred image placeholder with be replaced with uploaded
-  const handleImageUpload = (file: File): Promise<string> =>
-    new Promise((resolve, reject) => {
+  const handleImageUpload = (file: File): Promise<string> | void => {
+    if (!IMAGEBB_API_KEY) {
+      console.error("You should provide IMAGEBB_API_KEY for image bb");
+      return;
+    }
+
+    return new Promise((resolve, reject) => {
       const formData = new FormData();
       formData.append("image", file);
 
-      fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, {
+      fetch(`https://api.imgbb.com/1/upload?key=${IMAGEBB_API_KEY}`, {
         method: "POST",
         body: formData,
       })
@@ -78,6 +81,7 @@ const CreatePostPage = ({}: CreatePostPageProps) => {
         })
         .catch(() => reject(new Error("Upload failed")));
     });
+  };
 
   return (
     <Container mt="md">
