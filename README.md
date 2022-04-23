@@ -11,7 +11,7 @@
 
 - Run `yarn dev` from the root level directory
 
-## PostgresQL
+## Debug PostgresQL (Only if you're trying to run with PostgresQL on your local machine)
 
 - Update and install PostgreSQL `<version>`:  
   `sudo apt-get update`  
