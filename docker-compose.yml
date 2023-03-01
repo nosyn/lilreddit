@@ -63,7 +63,7 @@ services:
     image: biem97/nginx:latest
     restart: always
     ports:
-      - "8080"
+      - "8080:8080"
     depends_on:
       - server
       - client
